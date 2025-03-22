@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: uber-backend
+  namespace: uber
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      name: backend-pod
+      namespace: uber
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: uber-backend
+        image: jayant2005/backend-uber:latest
+        imagePullPolicy: Always  # Ensures the latest image is pulled
+        ports:
+        - containerPort: 4000
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+        env:  # Environment Variables
+        - name: DB_CONNECT
+          value: "mongodb://0.0.0.0/uber"
+        - name: PORT
+          value: "4000"
+        - name: JWT_SECRET
+          value: "uber_secret"
+        - name: server
+          value: "http://localhost:4000"
+        - name: GOOGLE_MAPS_API
+          value: "your_api_key_here"
+        - name: CORS_ORIGIN
+          value: "*"
+        - name: CORS_METHODS
+          value: "GET,POST"
+      restartPolicy: Always
