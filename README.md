@@ -1,6 +1,9 @@
 🚖 Uber Clone - Containerized with Docker & Kubernetes
+
 📌 Overview
+
 This is a fully containerized Uber-like ride-sharing application, deployed and managed using Docker and Kubernetes. The app is hosted locally on a machine with an Nginx reverse proxy, ensuring smooth communication between different microservices.
+
 
 🏗️ Tech Stack
 Frontend: React (Containerized)
@@ -27,6 +30,8 @@ Containerization: Docker
 
 ✅ User Ratings & Reviews – Rate and review drivers after each trip
 
+
+
 🚖 Driver Features
 ✅ Driver Registration & Verification – Secure sign-up for drivers
 
@@ -35,6 +40,8 @@ Containerization: Docker
 ✅ Earnings Dashboard – Track daily, weekly, and monthly earnings
 
 ✅ Navigation Integration – Suggested routes for drivers
+
+
 
 ⚙️ System Features
 ✅ Hosted Locally – Runs on a local machine with containerized services
