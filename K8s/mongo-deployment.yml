@@ -25,8 +25,16 @@ spec:
           value: mongoadmin
         - name: MONGO_INITDB_ROOT_PASSWORD
           value: secret
-        - name: DB_CONNECT
-          value: "mongodb://localhost:27017/uber"
+        volumeMounts:
+        - name: mongo-data
+          mountPath: /data/db
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
       volumes:
       - name: mongo-data
         persistentVolumeClaim:

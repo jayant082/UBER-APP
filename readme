@@ -1,0 +1,21 @@
+# Application Deployment with Kubernetes, Docker, Nginx, and MongoDB
+
+This document explains how the application is implemented using Kubernetes (K8s), Docker, Nginx, and MongoDB. The application is deployed on a Minikube cluster with separate containers for the frontend, backend, and database. Below is an interactive breakdown of the architecture and implementation.
+
+---
+
+## 1. **Architecture Overview**
+
+- **Frontend**: A containerized React/Angular/Vue.js application (or any other frontend framework).
+- **Backend**: A containerized Node.js/Express or Python/Django/Flask application.
+- **Database**: MongoDB container for data storage.
+- **Proxy**: Nginx is used as a reverse proxy to route traffic to the appropriate services.
+
+---
+
+## 2. **Implementation Steps**
+
+### **Step 1: Dockerize the Application**
+Each component (frontend, backend, and database) is containerized using Docker.
+
+#### Example Dockerfile for Backend:

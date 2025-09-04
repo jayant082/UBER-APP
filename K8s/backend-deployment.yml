@@ -18,7 +18,7 @@ spec:
       containers:
       - name: uber-backend
         image: jayant2005/backend-uber:latest
-        imagePullPolicy: Always  # Ensures the latest image is pulled
+        imagePullPolicy: Always
         ports:
         - containerPort: 4000
         resources:
@@ -28,15 +28,15 @@ spec:
           requests:
             memory: "256Mi"
             cpu: "250m"
-        env:  # Environment Variables
+        env:
         - name: DB_CONNECT
-          value: "mongodb://0.0.0.0/uber"
+          value: "mongodb://mongodb-service:27017/uber"
         - name: PORT
           value: "4000"
         - name: JWT_SECRET
           value: "uber_secret"
         - name: server
-          value: "http://localhost:4000"
+          value: "http://backend-service:4000"
         - name: GOOGLE_MAPS_API
           value: "your_api_key_here"
         - name: CORS_ORIGIN

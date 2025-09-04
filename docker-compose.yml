@@ -1,0 +1,44 @@
+version: "3.8"
+
+services:
+  backend:
+    build: ./Backend   
+    container_name: uber-backend
+    ports:
+      - "4000:3000"   
+    environment:
+      - DB_CONNECT=mongodb://mongodb:27017/uberdb
+    depends_on:
+      - mongodb
+    networks:
+      - uber-net
+
+  frontend:
+    build: ./frontend  
+    container_name: uber-frontend
+    ports:
+      - "5173:5173"    # dev server; later we can move to Nginx on port 80
+    environment:
+      - NODE_ENV=production
+    depends_on:
+      - backend
+    networks:
+      - uber-net
+
+  mongodb:
+    image: mongo:6
+    container_name: uber-mongodb
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - uber-net
+
+volumes:
+  mongo-data:
+
+networks:
+  uber-net:
+    driver: bridge
