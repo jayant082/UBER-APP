@@ -2,28 +2,49 @@ version: "3.8"
 
 services:
   backend:
-    build: ./Backend   
+    build:
+      context: ./Backend
+      dockerfile: dockerfile
     container_name: uber-backend
     ports:
-      - "4000:3000"   
+      - "4000:3000"
     environment:
+      - NODE_ENV=production
       - DB_CONNECT=mongodb://mongodb:27017/uberdb
     depends_on:
       - mongodb
+    volumes:
+      - backend-data:/usr/src/app/data
+      - backend-logs:/usr/src/app/logs
+      - backend-uploads:/usr/src/app/uploads
     networks:
       - uber-net
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
 
   frontend:
-    build: ./frontend  
+    build:
+      context: ./frontend
+      dockerfile: dockerfile
     container_name: uber-frontend
     ports:
-      - "5173:5173"    # dev server; later we can move to Nginx on port 80
+      - "5173:5173"
     environment:
       - NODE_ENV=production
+      - VITE_API_URL=http://backend:3000
     depends_on:
       - backend
+    volumes:
+      - frontend-dist:/app/dist
+      - frontend-cache:/app/node_modules/.cache
     networks:
       - uber-net
+    restart: unless-stopped
 
   mongodb:
     image: mongo:6
@@ -36,9 +57,14 @@ services:
     networks:
       - uber-net
 
-volumes:
-  mongo-data:
-
 networks:
   uber-net:
     driver: bridge
+
+volumes:
+  mongo-data:
+  backend-data:
+  backend-logs:
+  backend-uploads:
+  frontend-dist:
+  frontend-cache:
